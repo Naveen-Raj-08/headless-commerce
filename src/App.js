@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { gql } from '@apollo/client';
+import { Sample } from './Components/Sample';
 
-function App() {
+export default function App() {
+
+  const PRODUCTS = gql`
+  query getProducts{
+  products(
+    filter: {category_id: {eq: "3"}},
+    pageSize: 100,
+    currentPage: 1
+  ) {
+    total_count
+    items {
+      name
+      sku
+      thumbnail {
+        url
+        label
+        position
+        disabled
+      }
+      price_range {
+        minimum_price {
+          regular_price {
+            value
+            currency
+          }
+          final_price {
+            value
+            currency
+          }
+          discount {
+            amount_off
+            percent_off
+          }
+        }
+        maximum_price {
+          regular_price {
+            value
+            currency
+          }
+          final_price {
+            value
+            currency
+          }
+          discount {
+            amount_off
+            percent_off
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>My first Apollo app 🚀</h2>
+      <Sample product={PRODUCTS} />
     </div>
   );
 }
-
-export default App;
